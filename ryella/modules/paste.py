@@ -20,8 +20,8 @@ async def paste(message):
             await message.edit(f"Error: {e}")
             return
         msg = "<b>Pasted to:</b> <a href='https://warm-anchorage-15807.herokuapp.com/{}'>NekoBind</a>".format(
-                response.json()["key"]
-            )
+            response.json()["key"]
+        )
         return await message.edit(msg, parse_mode="html", link_preview=False)
     data = {"content": content}
     try:
