@@ -6,7 +6,7 @@ import traceback
 from ..handlers import user_cmd
 
 
-@user_cmd('eval')
+@user_cmd("eval")
 async def _eval(e):
     try:
         c = e.text.split(" ", 1)[1]
@@ -56,7 +56,7 @@ async def aexec(code, event):
     return await locals()["__aexec"](event, event.client)
 
 
-@user_cmd('(exec|bash|shell)')
+@user_cmd("(exec|bash|shell)")
 async def _exec(e):
     try:
         cmd = e.text.split(maxsplit=1)[1]
