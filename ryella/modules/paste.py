@@ -19,11 +19,10 @@ async def paste(message):
         except Exception as e:
             await message.edit(f"Error: {e}")
             return
-        else:
-            msg = "<b>Pasted to:</b> <a href='https://warm-anchorage-15807.herokuapp.com/{}'>NekoBind</a>".format(
+        msg = "<b>Pasted to:</b> <a href='https://warm-anchorage-15807.herokuapp.com/{}'>NekoBind</a>".format(
                 response.json()["key"]
             )
-            return await message.edit(msg, parse_mode="html", link_preview=False)
+        return await message.edit(msg, parse_mode="html", link_preview=False)
     data = {"content": content}
     try:
         r = post(url, data=data, timeout=5)
@@ -33,10 +32,9 @@ async def paste(message):
     except Exception as e:
         await message.edit(str(e))
         return
-    if r.status_code == 200:
-        url = "https://hastebin.com/" + r.json()["key"]
-        caption = '<b>Pasted to:</b> <a href="{}">Haste Bin</a>'.format(url)
-        await message.edit(caption, parse_mode="html", link_preview=False)
+    url = "https://hastebin.com/" + r.json()["key"]
+    caption = '<b>Pasted to:</b> <a href="{}">Haste Bin</a>'.format(url)
+    await message.edit(caption, parse_mode="html", link_preview=False)
 
 
 @user_cmd("ip")
