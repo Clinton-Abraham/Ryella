@@ -1,9 +1,10 @@
-import asyncio
-from time import time
 import os
+from time import time
+
 from ryella.helpers import get_text_content, human_readable_size
 
 from ..handlers import user_cmd
+
 
 @user_cmd("(dl|download)")
 async def dl(message):
@@ -37,23 +38,25 @@ async def upload(message):
 async def _ls(message):
     content = await get_text_content(message)
     if not content:
-       content = './'
-    if not content.endswith('/'):
-       content = content + '/'
+        content = "./"
+    if not content.endswith("/"):
+        content = content + "/"
     directory = os.listdir(content)
-    dir_contents = ''
+    dir_contents = ""
     folders = [0, 0]
     files = [0, 0]
     for con in directory:
         size = os.path.getsize(content + con)
         if os.path.isdir(content + con):
-           folders[0] += 1
-           folders[1] += size
-           dir_contents += '<code>📂 {} </code>(<code>{}</code>)\n'.format(con, human_readable_size(size))
+            folders[0] += 1
+            folders[1] += size
+            dir_contents += "<code>📂 {} </code>(<code>{}</code>)\n".format(
+                con, human_readable_size(size)
+            )
         else:
-           files[0] += 1
-           files[1] += size
-           dir_contents += '<code>📃 {} </code>(<code>{}</code>)\n'.format(con, human_readable_size(size))
+            files[0] += 1
+            files[1] += size
+            dir_contents += "<code>📃 {} </code>(<code>{}</code>)\n".format(
+                con, human_readable_size(size)
+            )
     await e.edit(dir_contents)
-    
-    
