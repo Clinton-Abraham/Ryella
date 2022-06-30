@@ -67,13 +67,13 @@ async def _ls(message):
             con, human_readable_size(size)
         )
     dir_contents += "\n"
-    dir_contents += "<b>TotalFolders:</b> {} {}".format(
+    dir_contents += "<b>TotalFolders:</b> {}</code>(<code>{}</code>)".format(
         folders[0], human_readable_size(folders[1])
     )
-    dir_contents += "\n<b>TotalFiles:</b> {} {}".format(
+    dir_contents += "\n<b>TotalFiles:</b> {}</code>(<code>{}</code>)".format(
         files[0], human_readable_size(files[1])
     )
-    dir_contents += "\n<b>Total:</b> {} {}</code>".format(
+    dir_contents += "\n<b>Total:</b> {}</code>(<code>{}</code>)".format(
         files[0] + folders[0], human_readable_size(files[1] + folders[1])
     )
     await message.edit(dir_contents, parse_mode="html")
