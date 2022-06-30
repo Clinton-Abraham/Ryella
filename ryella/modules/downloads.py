@@ -54,14 +54,16 @@ async def _ls(message):
         if os.path.isdir(content + con):
             folders[0] += 1
             folders[1] += size
-            dir_contents += "📂<code> {} </code><code>{}</code>\n".format(
+            dir_contents += "📂<code> {} </code>(<code>{}</code>)\n".format(
                 con, human_readable_size(size)
             )
         else:
             files[0] += 1
             files[1] += size
+            files_list.append(con)
     for con in files_list:
-        dir_contents += "📃<code> {} </code><code>{}</code>\n".format(
+        size = os.path.getsize(content + con)
+        dir_contents += "📃<code> {} </code>(<code>{}</code>)\n".format(
             con, human_readable_size(size)
         )
     dir_contents += "\n"
