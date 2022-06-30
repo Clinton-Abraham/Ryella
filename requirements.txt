@@ -1,4 +1,4 @@
-telethon
+git+https://github.com/New-dev0/Telethon.git
 pymongo
 dnspython
 requests
