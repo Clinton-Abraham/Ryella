@@ -62,8 +62,8 @@ async def _ls(message):
             files[1] += size
     for con in files_list:
         dir_contents += "📃<code> {} </code><code>{}</code>\n".format(
-                con, human_readable_size(size)
-            )
+            con, human_readable_size(size)
+        )
     dir_contents += "\n"
     dir_contents += "<b>TotalFolders:</b> {} {}".format(
         folders[0], human_readable_size(folders[1])
