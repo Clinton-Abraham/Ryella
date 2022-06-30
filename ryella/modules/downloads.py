@@ -48,6 +48,7 @@ async def _ls(message):
     dir_contents = "<b>PATH: <i>{}</i></b>\n".format(content)
     folders = [0, 0]
     files = [0, 0]
+    files_list = []
     for con in directory:
         size = os.path.getsize(content + con)
         if os.path.isdir(content + con):
@@ -59,17 +60,18 @@ async def _ls(message):
         else:
             files[0] += 1
             files[1] += size
-            dir_contents += "📃<code> {} </code><code>{}</code>\n".format(
+    for con in files_list:
+        dir_contents += "📃<code> {} </code><code>{}</code>\n".format(
                 con, human_readable_size(size)
             )
     dir_contents += "\n"
     dir_contents += "<b>TotalFolders:</b> {} {}".format(
         folders[0], human_readable_size(folders[1])
     )
-    dir_contents += "<b>TotalFiles:</b> {} {}".format(
+    dir_contents += "\n<b>TotalFiles:</b> {} {}".format(
         files[0], human_readable_size(files[1])
     )
-    dir_contents += "<b>Total:</b> {} {}</code>".format(
+    dir_contents += "\n<b>Total:</b> {} {}</code>".format(
         files[0] + folders[0], human_readable_size(files[1] + folders[1])
     )
     await message.edit(dir_contents, parse_mode="html")
