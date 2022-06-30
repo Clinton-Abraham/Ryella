@@ -16,6 +16,7 @@ async def dl(message):
         await message.edit("Reply to a media message to download it.")
         return
     start_time = time()
+    message = await message.edit("`Downloading...`")
     file = await reply.download_media()
     end_time = time()
     await message.edit(f"Downloaded to {file} in {end_time - start_time} seconds.")
@@ -29,6 +30,7 @@ async def upload(message):
         return
     try:
         await message.client.send_file(message.chat_id, content)
+        await message.delete()
     except BaseException as exc:
         await message.edit(str(exc))
         return
