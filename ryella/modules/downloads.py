@@ -1,10 +1,9 @@
 import asyncio
 from time import time
-
-from ryella.helpers import get_text_content
+import os
+from ryella.helpers import get_text_content, human_readable_size
 
 from ..handlers import user_cmd
-
 
 @user_cmd("(dl|download)")
 async def dl(message):
@@ -34,28 +33,27 @@ async def upload(message):
         return
 
 
-@user_cmd("curl")
-async def curl(message):
+@user_cmd("ls")
+async def _ls(message):
     content = await get_text_content(message)
     if not content:
-        await message.edit("specify a url to curl.")
-        return
-    cmd = f"curl -s {content}"
-    msg = await message.edit("Starting curl...")
-    proc = await asyncio.create_subprocess_shell(
-        cmd,
-        stdout=asyncio.subprocess.PIPE,
-        stderr=asyncio.subprocess.PIPE,
-        universal_newlines=True,
-    )
-    for line in (await proc.stdout.read()).split("\n"):
-        if line != msg.text:
-            await asyncio.sleep(4)
-            await msg.edit(line)
-    if proc.returncode != 0:
-        await msg.edit(f"Error: {await proc.stderr.read()}")
-    else:
-        await msg.edit("Downloaded successfully.")
-
-
-sk_key_regex = r"sk_live_(.+?)"  # sk_live_<key>
+       content = './'
+    if not content.endswith('/'):
+       content = content + '/'
+    directory = os.listdir(content)
+    dir_contents = ''
+    folders = [0, 0]
+    files = [0, 0]
+    for con in directory:
+        size = os.path.getsize(content + con)
+        if os.path.isdir(content + con):
+           folders[0] += 1
+           folders[1] += size
+           dir_contents += '<code>📂 {} </code>(<code>{}</code>)\n'.format(con, human_readable_size(size))
+        else:
+           files[0] += 1
+           files[1] += size
+           dir_contents += '<code>📃 {} </code>(<code>{}</code>)\n'.format(con, human_readable_size(size))
+    await e.edit(dir_contents)
+    
+    
