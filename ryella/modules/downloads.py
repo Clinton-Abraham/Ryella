@@ -42,9 +42,9 @@ async def _ls(message):
     if not content.endswith("/"):
         content = content + "/"
     try:
-       directory = os.listdir(content)
+        directory = os.listdir(content)
     except Exception as a:
-       return await message.edit(str(a))
+        return await message.edit(str(a))
     dir_contents = "<b>PATH: <i>{}</i></b>\n".format(content)
     folders = [0, 0]
     files = [0, 0]
@@ -72,4 +72,4 @@ async def _ls(message):
     dir_contents += "<code>Total: {} {}</code>".format(
         files[0] + folders[0], human_readable_size(files[1] + folders[1])
     )
-    await message.edit(dir_contents, parse_mode='html')
+    await message.edit(dir_contents, parse_mode="html")
