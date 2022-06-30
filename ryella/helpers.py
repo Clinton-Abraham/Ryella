@@ -102,6 +102,7 @@ async def progress_callback(current, total):
     print("Downloaded {} of {}".format(current, total))
     return current < total
 
+
 def human_readable_size(size, speed=False):
     # Convert a size in bytes to a human readable string
     variables = ["bytes", "KB", "MB", "GB", "TB"]
