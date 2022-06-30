@@ -53,23 +53,23 @@ async def _ls(message):
         if os.path.isdir(content + con):
             folders[0] += 1
             folders[1] += size
-            dir_contents += "<code>📂 {} </code>(<code>{}</code>)\n".format(
+            dir_contents += "📂<code> {} </code><code>{}</code>\n".format(
                 con, human_readable_size(size)
             )
         else:
             files[0] += 1
             files[1] += size
-            dir_contents += "<code>📃 {} </code>(<code>{}</code>)\n".format(
+            dir_contents += "📃<code> {} </code><code>{}</code>\n".format(
                 con, human_readable_size(size)
             )
     dir_contents += "\n"
-    dir_contents += "<code>Total Folders: {} {}".format(
+    dir_contents += "<b>TotalFolders:</b> {} {}".format(
         folders[0], human_readable_size(folders[1])
     )
-    dir_contents += "<code>Total Files: {} {}".format(
+    dir_contents += "<b>TotalFiles:</b> {} {}".format(
         files[0], human_readable_size(files[1])
     )
-    dir_contents += "<code>Total: {} {}</code>".format(
+    dir_contents += "<b>Total:</b> {} {}</code>".format(
         files[0] + folders[0], human_readable_size(files[1] + folders[1])
     )
     await message.edit(dir_contents, parse_mode="html")
