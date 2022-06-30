@@ -67,10 +67,10 @@ async def _ls(message):
             con, human_readable_size(size)
         )
     dir_contents += "\n"
-    dir_contents += "<b>TotalFolders:</b> {}</code>(<code>{}</code>)".format(
+    dir_contents += "<b>Folders:</b> {}</code> (<code>{}</code>)".format(
         folders[0], human_readable_size(folders[1])
     )
-    dir_contents += "\n<b>TotalFiles:</b> {}</code>(<code>{}</code>)".format(
+    dir_contents += "\n<b>Files:</b> {}</code> (<code>{}</code>)".format(
         files[0], human_readable_size(files[1])
     )
     dir_contents += "\n<b>Total:</b> {}</code>(<code>{}</code>)".format(
