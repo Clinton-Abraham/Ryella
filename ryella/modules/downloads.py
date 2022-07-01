@@ -6,7 +6,7 @@ from ryella.helpers import get_text_content, human_readable_size
 from ..handlers import user_cmd
 
 
-@user_cmd("(dl|download)")
+@user_cmd("dl")
 async def dl(message):
     if not message.is_reply:
         await message.edit("Reply to a message to download it.")
@@ -22,7 +22,7 @@ async def dl(message):
     await message.edit(f"Downloaded to {file} in {end_time - start_time} seconds.")
 
 
-@user_cmd("(upload|ul)")
+@user_cmd("ul")
 async def upload(message):
     content = await get_text_content(message)
     if not content:
