@@ -29,7 +29,9 @@ async def modify_afk(msg):
     set_afk(True, reason)
 
 
-@userbot.on(events.NewMessage(incoming=True, func=lambda e: e.is_private or e.mentioned))
+@userbot.on(
+    events.NewMessage(incoming=True, func=lambda e: e.is_private or e.mentioned)
+)
 async def afk_message(event):
     if not is_afk():
         return
