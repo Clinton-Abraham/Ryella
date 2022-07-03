@@ -1,4 +1,4 @@
-telethon
+newthon
 pymongo
 dnspython
 requests

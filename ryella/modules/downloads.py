@@ -1,56 +1,81 @@
-
-from ryella.helpers import get_text_content
-from ..constants import userbot
-from telethon import events
-from ..handlers import user_cmd
+import os
 from time import time
-import asyncio
+
+from ryella.helpers import get_text_content, human_readable_size
+
+from ..handlers import user_cmd
 
 
-@user_cmd('(dl|download)')
+@user_cmd("dl")
 async def dl(message):
     if not message.is_reply:
-        await message.edit('Reply to a message to download it.')
+        await message.edit("Reply to a message to download it.")
         return
     reply = await message.get_reply_message()
     if not reply.media:
-        await message.edit('Reply to a media message to download it.')
+        await message.edit("Reply to a media message to download it.")
         return
     start_time = time()
+    message = await message.edit("`Downloading...`")
     file = await reply.download_media()
     end_time = time()
-    await message.edit(f'Downloaded to {file} in {end_time - start_time} seconds.')
+    await message.edit(f"Downloaded to {file} in {end_time - start_time} seconds.")
 
 
-@user_cmd('(upload|ul)')
+@user_cmd("ul")
 async def upload(message):
     content = await get_text_content(message)
     if not content:
-        await message.edit('specify a file to upload.')
+        await message.edit("specify a file to upload.")
         return
     try:
         await message.client.send_file(message.chat_id, content)
+        await message.delete()
     except BaseException as exc:
         await message.edit(str(exc))
         return
 
 
-@user_cmd('curl')
-async def curl(message):
+@user_cmd("ls")
+async def _ls(message):
     content = await get_text_content(message)
     if not content:
-        await message.edit('specify a url to curl.')
-        return
-    cmd = f'curl -s {content}'
-    msg = await message.edit('Starting curl...')
-    proc = await asyncio.create_subprocess_shell(cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE, universal_newlines=True)
-    for line in (await proc.stdout.read()).split('\n'):
-        if line != msg.text:
-            await asyncio.sleep(4)
-            await msg.edit(line)
-    if proc.returncode != 0:
-        await msg.edit(f'Error: {await proc.stderr.read()}')
-    else:
-        await msg.edit('Downloaded successfully.')
-
-sk_key_regex = r'sk_live_(.+?)'  # sk_live_<key>
+        content = "./"
+    if not content.endswith("/"):
+        content = content + "/"
+    try:
+        directory = os.listdir(content)
+    except Exception as a:
+        return await message.edit(str(a))
+    dir_contents = "<b>PATH: <i>{}</i></b>\n".format(content)
+    folders = [0, 0]
+    files = [0, 0]
+    files_list = []
+    for con in directory:
+        size = os.path.getsize(content + con)
+        if os.path.isdir(content + con):
+            folders[0] += 1
+            folders[1] += size
+            dir_contents += "📂<code> {} </code>(<code>{}</code>)\n".format(
+                con, human_readable_size(size)
+            )
+        else:
+            files[0] += 1
+            files[1] += size
+            files_list.append(con)
+    for con in files_list:
+        size = os.path.getsize(content + con)
+        dir_contents += "📃<code> {} </code>(<code>{}</code>)\n".format(
+            con, human_readable_size(size)
+        )
+    dir_contents += "\n"
+    dir_contents += "<b>Folders:</b> {}</code> (<code>{}</code>)".format(
+        folders[0], human_readable_size(folders[1])
+    )
+    dir_contents += "\n<b>Files:</b> {}</code> (<code>{}</code>)".format(
+        files[0], human_readable_size(files[1])
+    )
+    dir_contents += "\n<b>Total:</b> {}</code>(<code>{}</code>)".format(
+        files[0] + folders[0], human_readable_size(files[1] + folders[1])
+    )
+    await message.edit(dir_contents, parse_mode="html")

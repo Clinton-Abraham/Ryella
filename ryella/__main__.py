@@ -1,4 +1,4 @@
-from .constants import userbot, logger
+from .constants import logger, userbot
 from .helpers import import_modules, master
 
 try:
@@ -7,7 +7,7 @@ try:
 except Exception as e:
     raise e
 
-print('Ryella is now running!')
+print("Ryella is now running!")
 print(master)
 
 import_modules(logger)
