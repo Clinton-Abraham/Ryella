@@ -2,11 +2,11 @@ import datetime
 
 from telethon import events
 
-from ryella.constants import bot
+from ryella.constants import userbot
 from ryella.modules.db.afk import get_afk, is_afk, set_afk
 
 
-@bot.on(events.NewMessage(outgoing=True))
+@userbot.on(events.NewMessage(outgoing=True))
 async def set_not_afk(event):
     if "afk" in event.text:
         return await modify_afk(event)
@@ -29,7 +29,7 @@ async def modify_afk(msg):
     set_afk(True, reason)
 
 
-@bot.on(events.NewMessage(incoming=True, func=lambda e: e.is_private or e.mentioned))
+@userbot.on(events.NewMessage(incoming=True, func=lambda e: e.is_private or e.mentioned))
 async def afk_message(event):
     if not is_afk():
         return
