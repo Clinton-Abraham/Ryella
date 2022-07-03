@@ -3,9 +3,9 @@ from ..handlers import user_cmd
 from ..helpers import get_text_content, get_user
 
 
-@user_cmd('paste')
+@user_cmd('paste', 'Paste to Hastebin or Nekobin (-n)')
 async def paste(message):
-    await message.edit('Pasting...')
+    msg = await message.edit('Pasting...')
     url = 'https://hastebin.com/documents'
     content = await get_text_content(message)
     if not content:
@@ -16,12 +16,12 @@ async def paste(message):
         try:
             response = post(url, json={'content': content}, timeout=5)
         except Exception as e:
-            await message.edit(f'Error: {e}')
+            await msg.edit(f'Error: {e}')
             return
         else:
             msg = "<b>Pasted to:</b> <a href='https://warm-anchorage-15807.herokuapp.com/{}'>NekoBind</a>".format(
                 response.json()['key'])
-            return await message.edit(msg, parse_mode='html', link_preview=False)
+            return await msg.edit(msg, parse_mode='html', link_preview=False)
     data = {'content': content}
     try:
         r = post(url, data=data, timeout=5)
@@ -29,15 +29,14 @@ async def paste(message):
         await message.edit('TimeoutError')
         return
     except Exception as e:
-        await message.edit(str(e))
+        await msg.edit(str(e))
         return
-    if r.status_code == 200:
-        url = 'https://hastebin.com/' + r.json()['key']
-        caption = '<b>Pasted to:</b> <a href="{}">Haste Bin</a>'.format(url)
-        await message.edit(caption, parse_mode='html', link_preview=False)
+    url = 'https://hastebin.com/' + r.json()['key']
+    caption = '<b>Pasted to:</b> <a href="{}">Haste Bin</a>'.format(url)
+    await msg.edit(caption, parse_mode='html', link_preview=False)
 
 
-@user_cmd('ip')
+@user_cmd('ip', 'Get Ip address details')
 async def ip(message):
     await message.edit('Getting IP data...')
     ip_address = await get_text_content(message)
@@ -53,14 +52,13 @@ async def ip(message):
     except Exception as e:
         await message.edit(str(e))
         return
-    if r.status_code == 200:
-        data = r.json()
-        caption = '<b>IP:</b> <code>{}</code>\n<b>Country:</b> <code>{}</code>\n<b>Region:</b> <code>{}</code>\n<b>City:</b> <code>{}</code>\n<b>Org:</b> <code>{}</code>'.format(
-            data['ip'], data['country'], data['region'], data['city'], data['org'])
-        await message.edit(caption, parse_mode='html', link_preview=False)
+    data = r.json()
+    caption = '<b>IP:</b> <code>{}</code>\n<b>Country:</b> <code>{}</code>\n<b>Region:</b> <code>{}</code>\n<b>City:</b> <code>{}</code>\n<b>Org:</b> <code>{}</code>'.format(
+        data['ip'], data['country'], data['region'], data['city'], data['org'])
+    await message.edit(caption, parse_mode='html', link_preview=False)
 
 
-@user_cmd('ud')
+@user_cmd('ud', 'Search the Urban Dictionary.')
 async def ud(message):
     url = 'https://api.urbandictionary.com/v0/define'
     content = await get_text_content(message)
@@ -76,20 +74,19 @@ async def ud(message):
     except Exception as e:
         await message.edit(str(e))
         return
-    if r.status_code == 200:
-        data = r.json()
-        if data['list']:
-            definition = data['list'][0]['definition']
-            example = data['list'][0]['example']
-            caption = '<b>{}</b>\n<b>Definition:</b> <code>{}</code>\n<b>Example:</b> <code>{}</code>'.format(
-                content, definition, example)
-            await message.edit(caption, parse_mode='html', link_preview=False)
-        else:
-            await message.edit('No results found!')
-            return
+    data = r.json()
+    if data['list']:
+        definition = data['list'][0]['definition']
+        example = data['list'][0]['example']
+        caption = '<b>Word: <i>{}</i></b>\n<b>Definition:</b> <code>{}</code>\n<b>Example:</b> <code>{}</code>'.format(
+            content, definition, example)
+        await message.edit(caption, parse_mode='html', link_preview=False)
+    else:
+        await message.edit('No results found!')
+        return
 
 
-@user_cmd('bin')
+@user_cmd('bin', 'Get info about a bin')
 async def bin(message):
     url = 'https://lookup.binlist.net/'
     content = await get_text_content(message)
@@ -97,23 +94,22 @@ async def bin(message):
         await message.edit('Please provide bin number!')
         return
     r = get(url + content, timeout=5)
-    if r.status_code == 200:
-        data = r.json()
-        if data.get('bin'):
-            bin_number = data['bin']
-            bank = data['bank']
-            country = data['country']
-            type = data['type']
-            brand = data['brand']
-            caption = '<b>Bin Number:</b> <code>{}</code>\n<b>Bank:</b> <code>{}</code>\n<b>Country:</b> <code>{}</code>\n<b>Type:</b> <code>{}</code>\n<b>Brand:</b> <code>{}</code>'.format(
-                bin_number, bank, country, type, brand)
-            await message.edit(caption, parse_mode='html', link_preview=False)
-        else:
-            await message.edit('No results found!')
-            return
+    data = r.json()
+    if data.get('bin'):
+        bin_number = data['bin']
+        bank = data['bank']
+        country = data['country']
+        _type = data['type']
+        brand = data['brand']
+        caption = '<b>Bin Number:</b> <code>{}</code>\n<b>Bank:</b> <code>{}</code>\n<b>Country:</b> <code>{}</code>\n<b>Type:</b> <code>{}</code>\n<b>Brand:</b> <code>{}</code>'.format(
+            bin_number, bank, country, _type, brand)
+        await message.edit(caption, parse_mode='html', link_preview=False)
+    else:
+        await message.edit('No results found!')
+        return
 
 
-@user_cmd('whois')
+@user_cmd('whois', 'Get info about a user.')
 async def whois(message):
     user, _ = await get_user(message)
     if not user:

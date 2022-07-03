@@ -8,7 +8,7 @@ user = master[0]
 print(user.id)
 
 
-def user_cmd(pattern: str):
+def user_cmd(pattern: str, help:str = '')
     pattern = '^(?i)' + '[.,]' + pattern + '?(?: |$)'
 
     def decorator(func):
@@ -17,5 +17,3 @@ def user_cmd(pattern: str):
         userbot.add_event_handler(wrapper, events.NewMessage(
             pattern=pattern, from_users=user.id, forwards=False))
     return decorator
-
-
