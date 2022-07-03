@@ -1,10 +1,11 @@
+from platform import platform, python_version
 from time import time
+
+from telethon import __version__
 
 from ..constants import start_time
 from ..handlers import user, user_cmd
 from ..helpers import get_readable_time
-from platform import python_version, platform
-from telethon import __version__
 
 alive_caption = """
 <b>Ryella Userbot</b>
