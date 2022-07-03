@@ -3,3 +3,4 @@ pymongo
 dnspython
 requests
 python-dotenv
+pillow

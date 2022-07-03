@@ -6,7 +6,7 @@ import traceback
 from ..handlers import user_cmd
 
 
-@user_cmd("eval")
+@user_cmd("eval", 'Evaluate python code')
 async def _eval(e):
     try:
         c = e.text.split(" ", 1)[1]
@@ -56,7 +56,7 @@ async def aexec(code, event):
     return await locals()["__aexec"](event, event.client)
 
 
-@user_cmd("(exec|bash|shell)")
+@user_cmd("(exec|bash|shell)", 'Execute bash commands')
 async def _exec(e):
     try:
         cmd = e.text.split(maxsplit=1)[1]
@@ -74,5 +74,5 @@ async def _exec(e):
             await e.respond(file=file)
             await p.delete()
     else:
-        f = "`BASH` \n`Output:`\n\n```{}```".format(out)
-        await p.edit(f)
+        caption = "`BASH` \n`Output:`\n\n```{}```".format(out)
+        await p.edit(caption)
