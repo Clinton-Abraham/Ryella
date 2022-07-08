@@ -21,9 +21,10 @@ async def paste(message):
             return
         else:
             msge = "<b>Pasted to:</b> <a href='https://warm-anchorage-15807.herokuapp.com/{}'>NekoBin</a>".format(
-                response.json()['key'])
-            return await msg.edit(msge, parse_mode='html', link_preview=False)
-    data = {'content': content}
+                response.json()["key"]
+            )
+            return await msg.edit(msge, parse_mode="html", link_preview=False)
+    data = {"content": content}
     try:
         r = post(url, data=data, timeout=5)
     except TimeoutError:
