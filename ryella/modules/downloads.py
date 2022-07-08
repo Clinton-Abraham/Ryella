@@ -3,10 +3,10 @@ from time import time
 
 from ryella.helpers import get_text_content, human_readable_size
 
-from ..handlers import user_cmd # pylint: disable=E0401
+from ..handlers import user_cmd  # pylint: disable=E0401
 
 
-@user_cmd("dl", 'Download the replied media')
+@user_cmd("dl", "Download the replied media")
 async def dl(message):
     if not message.is_reply:
         await message.edit("Reply to a message to download it.")
@@ -22,7 +22,7 @@ async def dl(message):
     await message.edit(f"Downloaded to `{file}` in `{end_time - start_time}`s.")
 
 
-@user_cmd("ul", 'Upload the file from given path')
+@user_cmd("ul", "Upload the file from given path")
 async def upload(message):
     content = await get_text_content(message)
     if not content:
@@ -36,7 +36,7 @@ async def upload(message):
         return
 
 
-@user_cmd("ls", 'List directory contents')
+@user_cmd("ls", "List directory contents")
 async def _ls(message):
     content = await get_text_content(message)
     if not content:

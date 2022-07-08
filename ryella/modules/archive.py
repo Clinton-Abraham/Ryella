@@ -1,8 +1,9 @@
 import asyncio
-from ryella.handlers import user_cmd  # pylint: disable=E0402
-from ryella.helpers import progress
 import zipfile
 from time import time
+
+from ryella.handlers import user_cmd  # pylint: disable=E0402
+from ryella.helpers import progress
 
 
 @user_cmd("compress", "Compress the replied message")
@@ -16,17 +17,30 @@ async def _compress(msg):
         return
     message = await msg.edit("`Downloading...`")
     start_time = time()
-    dl = await msg.client.download_media(reply, '/downloads/',
-                                         progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-                                             progress(d, t, message, start_time,
-                                                      "trying to download")
-                                         ))
+    dl = await msg.client.download_media(
+        reply,
+        "/downloads/",
+        progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
+            progress(d, t, message, start_time, "trying to download")
+        ),
+    )
     message = await msg.edit("`Compressing...`")
-    with zipfile.ZipFile('/downloads/' + dl + '.zip', 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as zip:
-        zip.write('/downloads/' + dl)
+    with zipfile.ZipFile(
+        "/downloads/" + dl + ".zip",
+        "w",
+        compression=zipfile.ZIP_DEFLATED,
+        compresslevel=9,
+    ) as zip:
+        zip.write("/downloads/" + dl)
     message = await message.edit("`Uploading...`")
-    await msg.client.send_file(msg.chat_id, '/downloads/' + dl.file_name + '.zip', caption='Compressed', progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-        progress(d, t, message, time(), "trying to upload")
-    ))
+    await msg.client.send_file(
+        msg.chat_id,
+        "/downloads/" + dl.file_name + ".zip",
+        caption="Compressed",
+        progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
+            progress(d, t, message, time(), "trying to upload")
+        ),
+    )
+
 
 # @user_cmd("uncompress", "Uncompress the replied message")

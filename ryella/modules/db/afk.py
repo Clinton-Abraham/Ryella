@@ -1,5 +1,6 @@
-from ryella.constants import db
 import time
+
+from ryella.constants import db
 
 afk = db.ryella.afk
 
@@ -13,8 +14,7 @@ def is_afk():
 def set_afk(value: bool):
     global AFk
     AFk = value
-    afk.update_one({"_id": "afk"}, {
-        "$set": {"value": value, "time": time.time()}})
+    afk.update_one({"_id": "afk"}, {"$set": {"value": value, "time": time.time()}})
     return AFk
 
 
