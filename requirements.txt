@@ -4,3 +4,4 @@ dnspython
 requests
 python-dotenv
 pillow
+speedtest-cli
