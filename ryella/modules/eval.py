@@ -32,7 +32,7 @@ async def _eval(e):
             await e.delete()
             return await e.respond(file=file)
     final_output = (
-        "__►__ **EVALPy**\n```{}``` \n\n __►__ **OUTPUT**: \n```{}``` \n".format(
+        "__►__ **EVALxD**\n```{}``` \n\n __►__ **OUTPUT**: \n```{}``` \n".format(
             c,
             evaluation,
         )
@@ -61,8 +61,8 @@ async def _exec(e):
     try:
         cmd = e.text.split(maxsplit=1)[1]
     except IndexError:
-        return await e.edit("No cmd provided.")
-    p = await e.edit("Processing...")
+        return await e.edit("No cmd provided!")
+    p = await e.edit("Executing...")
     proc = await asyncio.create_subprocess_shell(
         cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
     )
@@ -74,5 +74,5 @@ async def _exec(e):
             await e.respond(file=file)
             await p.delete()
     else:
-        caption = "`BASH` \n`Output:`\n\n```{}```".format(out)
+        caption = "**Shell:**\n**Code:** `{}`\n**Output:**\n\n```{}```".format(cmd, out)
         await p.edit(caption)
