@@ -91,6 +91,29 @@ async def _exec(e):
 async def _update(e):
     p = await e.edit("Fetching upstream...")
     os.system("git pull")
-    await p.edit("Restarting...")
-    args = [sys.executable, "-m", "ryella"]
+    await p.edit("Fast soft updating...")
+    args = [sys.executable, "-m ryella"]
     os.execle(sys.executable, *args, os.environ)
+
+@user_cmd("speedtest", "speedtest-cli")
+async def _speedtest(e):
+    msg = await e.edit("Testing internet speed...")
+    st = speedtest.Speedtest()
+    download = st.download()
+    upload = st.upload()
+    ping = st.results.ping
+    server = st.results.server.get("name", "Unknown")
+    isp = st.results.client.get("isp", "Unknown")
+    ip = st.results.client.get("ip", "Unknown")
+    country = st.results.client.get("country", "Unknown")
+    result = (
+        f"**Speedtest Results:**\n\n"
+        f"**Download:** `{human_readable_size(download, True)}`\n"
+        f"**Upload:** `{human_readable_size(upload, True)}`\n"
+        f"**Ping:** `{ping} ms`\n"
+        f"**Server:** `{server}`\n"
+        f"**ISP:** `{isp}`\n"
+        f"**IP:** `{ip}`\n"
+        f"**Country:** `{country}`"
+    )
+    await msg.edit(result)
