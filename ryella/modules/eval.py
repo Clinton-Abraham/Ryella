@@ -4,6 +4,7 @@ import os
 import sys
 import traceback
 from platform import platform
+import time
 
 from ..handlers import user_cmd
 
@@ -29,7 +30,7 @@ async def _eval(e):
     sys.stdout = old_stdout
     sys.stderr = old_stderr
     evaluation = exc or stderr or stdout or value or "No output"
-    if len(str(evaluation)) > 4094:
+    if len(str(evaluation)) > 4040:
         with io.BytesIO(str(evaluation).encode()) as file:
             file.name = "eval.txt"
             await e.delete()
