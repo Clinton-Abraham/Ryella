@@ -179,6 +179,7 @@ async def run_cmd(cmd):
 
 def system_information():
     """Get full system Specs."""
+    get_size = human_readable_size
     print("=" * 40, "System Information", "=" * 40)
     uname = platform.uname()
     print(f"System: {uname.system}")
