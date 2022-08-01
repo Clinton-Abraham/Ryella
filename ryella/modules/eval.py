@@ -1,7 +1,7 @@
 import asyncio
 import io
-import sys
 import os
+import sys
 import traceback
 from platform import platform
 
@@ -88,10 +88,8 @@ async def _exec(e):
 
 @user_cmd("update", "git pull from origin repo")
 async def _update(e):
- p = await e.edit("Fetching upstream...")
- os.system("git pull")
- await p.edit("Restarting...")
- args = [sys.executable, "-m", "ryella"]
- os.execle(sys.executable, *args, os.environ)
-
- 
+    p = await e.edit("Fetching upstream...")
+    os.system("git pull")
+    await p.edit("Restarting...")
+    args = [sys.executable, "-m", "ryella"]
+    os.execle(sys.executable, *args, os.environ)
