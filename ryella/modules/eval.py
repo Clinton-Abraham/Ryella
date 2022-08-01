@@ -7,7 +7,7 @@ import traceback
 from platform import platform
 
 import speedtest
-
+from ..helpers import human_readable_size
 from ..handlers import user_cmd
 
 
@@ -100,7 +100,7 @@ async def _update(e):
 
 @user_cmd("speedtest", "speedtest-cli")
 async def _speedtest(e):
-    msg = await e.edit("Testing internet speed...")
+    msg = await e.edit("`Testing internet speed...`")
     st = speedtest.Speedtest()
     download = st.download()
     upload = st.upload()
