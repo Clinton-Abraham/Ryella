@@ -2,7 +2,8 @@ import asyncio
 import io
 import sys
 import traceback
-from platform import platform 
+from platform import platform
+
 from ..handlers import user_cmd
 
 
@@ -74,9 +75,11 @@ async def _exec(e):
             await e.respond(file=file)
             await p.delete()
     else:
-        if "windows" in platform ().lower():
-           ptf = "PowerShell"
+        if "windows" in platform().lower():
+            ptf = "PowerShell"
         else:
-           ptf = "Bash"
-        caption = "**{}:**\n**Code:** `{}`\n**Output:**\n\n```{}```".format(ptf, cmd, out)
+            ptf = "Bash"
+        caption = "**{}:**\n**Code:** `{}`\n**Output:**\n\n```{}```".format(
+            ptf, cmd, out
+        )
         await p.edit(caption)
