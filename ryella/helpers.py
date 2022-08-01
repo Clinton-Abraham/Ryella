@@ -216,7 +216,7 @@ def system_information():
     # get all disk partitions
     partitions = psutil.disk_partitions()
     for partition in partitions:
-        info += f"\n=== Device: {partition.device} ===")
+        info += f"\n=== Device: {partition.device} ==="
         info += (f"\n  Mountpoint: {partition.mountpoint}")
         info += (f"\n  File system type: {partition.fstype}")
         try:
