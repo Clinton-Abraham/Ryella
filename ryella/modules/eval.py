@@ -95,6 +95,7 @@ async def _update(e):
     args = [sys.executable, "-m ryella"]
     os.execle(sys.executable, *args, os.environ)
 
+
 @user_cmd("speedtest", "speedtest-cli")
 async def _speedtest(e):
     msg = await e.edit("Testing internet speed...")
