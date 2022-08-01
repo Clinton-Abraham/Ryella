@@ -5,7 +5,9 @@ import sys
 import time
 import traceback
 from platform import platform
-import speedtest 
+
+import speedtest
+
 from ..handlers import user_cmd
 
 
