@@ -193,7 +193,9 @@ def system_information():
 
     boot_time_timestamp = psutil.boot_time()
     bt = datetime.fromtimestamp(boot_time_timestamp)
-    info += f"\nBoot Time: {bt.year}/{bt.month}/{bt.day} {bt.hour}:{bt.minute}:{bt.second}"
+    info += (
+        f"\nBoot Time: {bt.year}/{bt.month}/{bt.day} {bt.hour}:{bt.minute}:{bt.second}"
+    )
 
     info += "\n\n**CPU**"
     info += f"\nPhysical cores: {psutil.cpu_count(logical=False)}"
@@ -217,22 +219,22 @@ def system_information():
     partitions = psutil.disk_partitions()
     for partition in partitions:
         info += f"\n=== Device: {partition.device} ==="
-        info += (f"\n  Mountpoint: {partition.mountpoint}")
-        info += (f"\n  File system type: {partition.fstype}")
+        info += f"\n  Mountpoint: {partition.mountpoint}"
+        info += f"\n  File system type: {partition.fstype}"
         try:
             partition_usage = psutil.disk_usage(partition.mountpoint)
         except PermissionError:
             # this can be catched due to the disk that
             # isn't ready
             continue
-        info += (f"\n  Total Size: {get_size(partition_usage.total)}")
-        info += (f"\n  Used: {get_size(partition_usage.used)}")
-        info += (f"\n  Free: {get_size(partition_usage.free)}")
-        info += (f"\n  Percentage: {partition_usage.percent}%")
+        info += f"\n  Total Size: {get_size(partition_usage.total)}"
+        info += f"\n  Used: {get_size(partition_usage.used)}"
+        info += f"\n  Free: {get_size(partition_usage.free)}"
+        info += f"\n  Percentage: {partition_usage.percent}%"
     # get IO statistics since boot
     disk_io = psutil.disk_io_counters()
-    info += (f"Total read: {get_size(disk_io.read_bytes)}")
-    info += (f"Total write: {get_size(disk_io.write_bytes)}")
+    info += f"Total read: {get_size(disk_io.read_bytes)}"
+    info += f"Total write: {get_size(disk_io.write_bytes)}"
 
     ## Network information
     info += "\n\n**Network Information**"
@@ -240,17 +242,17 @@ def system_information():
     if_addrs = psutil.net_if_addrs()
     for interface_name, interface_addresses in if_addrs.items():
         for address in interface_addresses:
-            info += (f"=== Interface: {interface_name} ===")
+            info += f"=== Interface: {interface_name} ==="
             if str(address.family) == "AddressFamily.AF_INET":
-                info += (f"\n  IP Address: {address.address}")
-                info += (f"\n  Netmask: {address.netmask}")
-                info += (f"\n  Broadcast IP: {address.broadcast}")
+                info += f"\n  IP Address: {address.address}"
+                info += f"\n  Netmask: {address.netmask}"
+                info += f"\n  Broadcast IP: {address.broadcast}"
             elif str(address.family) == "AddressFamily.AF_PACKET":
-                info += (f"\n  MAC Address: {address.address}")
-                info += (f"\n  Netmask: {address.netmask}")
-                info += (f"\n  Broadcast MAC: {address.broadcast}")
+                info += f"\n  MAC Address: {address.address}"
+                info += f"\n  Netmask: {address.netmask}"
+                info += f"\n  Broadcast MAC: {address.broadcast}"
     ##get IO statistics since boot
     net_io = psutil.net_io_counters()
-    info += (f"\nTotal Bytes Sent: {get_size(net_io.bytes_sent)}")
-    info += (f"\bTotal Bytes Received: {get_size(net_io.bytes_recv)}")
+    info += f"\nTotal Bytes Sent: {get_size(net_io.bytes_sent)}"
+    info += f"\bTotal Bytes Received: {get_size(net_io.bytes_recv)}"
     return info
