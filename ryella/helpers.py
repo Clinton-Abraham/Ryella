@@ -253,6 +253,6 @@ def system_information():
                 info += f"\n  Broadcast MAC: {address.broadcast}"
     ##get IO statistics since boot
     net_io = psutil.net_io_counters()
-    info += f"\nTotal Bytes Sent: {get_size(net_io.bytes_sent)}"
-    info += f"\bTotal Bytes Received: {get_size(net_io.bytes_recv)}"
+    info += f"\n**Total Bytes Sent:** {get_size(net_io.bytes_sent)}"
+    info += f"\n**Total Bytes Received:** {get_size(net_io.bytes_recv)}"
     return info
