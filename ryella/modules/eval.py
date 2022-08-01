@@ -2,15 +2,14 @@ import asyncio
 import io
 import sys
 import traceback
-from platform import platform
-
+from platform import platform 
 from ..handlers import user_cmd
 
 
 @user_cmd("eval", "Evaluate python code")
 async def _eval(e):
     try:
-        c = e.text.split(" ", 1)[1]
+        c = e.text.split(None, 1)[1]
     except IndexError:
         return await e.edit("No code provided")
     old_stderr = sys.stderr
@@ -18,6 +17,7 @@ async def _eval(e):
     redirected_output = sys.stdout = io.StringIO()
     redirected_error = sys.stderr = io.StringIO()
     stdout, stderr, exc = None, None, None
+    start_time = time.time()
     try:
         value = await aexec(c, e)
     except Exception:
@@ -33,9 +33,10 @@ async def _eval(e):
             await e.delete()
             return await e.respond(file=file)
     final_output = (
-        "__►__ **EVALxD**\n```{}``` \n\n __►__ **OUTPUT**: \n```{}``` \n".format(
+        "__►__ **EVALxD**\n```{}``` \n\n __►__ **OUTPUT**: \n```{}``` \n**Execution Time:** `{}`s".format(
             c,
             evaluation,
+            int(time.time() - start_time),
         )
     )
     await e.edit(final_output)
@@ -75,11 +76,9 @@ async def _exec(e):
             await e.respond(file=file)
             await p.delete()
     else:
-        if "windows" in platform().lower():
-            ptf = "PowerShell"
+        if "windows" in platform ().lower():
+           ptf = "PowerShell"
         else:
-            ptf = "Bash"
-        caption = "**{}:**\n**Code:** `{}`\n**Output:**\n\n```{}```".format(
-            ptf, cmd, out
-        )
+           ptf = "Bash"
+        caption = "**{}:**\n**Code:** `{}`\n**Output:**\n\n```{}```".format(ptf, cmd, out)
         await p.edit(caption)
