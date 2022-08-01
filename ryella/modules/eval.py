@@ -7,8 +7,9 @@ import traceback
 from platform import platform
 
 import speedtest
-from ..helpers import human_readable_size
+
 from ..handlers import user_cmd
+from ..helpers import human_readable_size
 
 
 @user_cmd("eval", "Evaluate python code")
