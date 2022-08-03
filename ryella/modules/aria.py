@@ -175,7 +175,7 @@ async def remove_a_download(message):
     aria2p_client.remove(downloads=[downloads], force=True, files=True, clean=True)
 
 
-@user_cmd("ariastatus$")
+@user_cmd("ariastatus")
 async def show_all(message):
     downloads = aria2p_client.get_downloads()
     msg = "**On Going Downloads**\n\n"
