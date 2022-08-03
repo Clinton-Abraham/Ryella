@@ -81,9 +81,9 @@ async def _exec(e):
             await p.delete()
     else:
         if "windows" in platform().lower():
-            ptf = "PowerShell"
+            ptf = "POWERSHELL"
         else:
-            ptf = "Bash"
+            ptf = "BASH"
         caption = "**{}:**\n**Code:** `{}`\n**Output:**\n\n```{}```".format(
             ptf, cmd, out
         )
@@ -92,9 +92,12 @@ async def _exec(e):
 
 @user_cmd("update", "git pull from origin repo")
 async def _update(e):
-    p = await e.edit("Fetching upstream...")
-    os.system("git pull")
-    await p.edit("Fast soft updating...")
+    p = await e.edit("`Fetching upstream...`")
+    proc = await asyncio.create_subprocess_shell(
+        "gut pull", stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
+    )
+    await proc.communicate()
+    await p.edit("`Fast soft updating...`")
     args = [sys.executable, "-m ryella"]
     os.execle(sys.executable, *args, os.environ)
 
