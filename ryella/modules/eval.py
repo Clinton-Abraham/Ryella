@@ -144,3 +144,4 @@ async def gen_change_log():
     for c in clog:
         change += f"• `{c}`\n"
     return change
+# xd
