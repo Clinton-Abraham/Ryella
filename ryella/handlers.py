@@ -4,8 +4,6 @@ from .constants import userbot
 from .helpers import master
 
 user = master[0]
-print(user.id)
-
 
 def user_cmd(pattern: str, _help: str = ""):
     """
