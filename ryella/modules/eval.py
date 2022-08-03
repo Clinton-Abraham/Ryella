@@ -139,7 +139,7 @@ async def gen_change_log():
     )
     stdout, _ = await proc.communicate()
     stdout = stdout.decode().strip()
-    clog =stdout.split("\n")[:4]
+    clog = stdout.split("\n")[:4]
     change = "**Change Log:**\n"
     for c in clog:
         change += f"• `{c}`\n"
