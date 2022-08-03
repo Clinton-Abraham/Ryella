@@ -94,11 +94,11 @@ async def _exec(e):
 async def _update(e):
     p = await e.edit("`Fetching upstream...`")
     proc = await asyncio.create_subprocess_shell(
-        "gut pull", stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
+        "git pull", stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
     )
     await proc.communicate()
     await p.edit("`Fast soft updating...`")
-    args = [sys.executable, "-m ryella"]
+    args = [sys.executable, "-m", ryella"]
     os.execle(sys.executable, *args, os.environ)
 
 
