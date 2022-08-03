@@ -6,7 +6,7 @@ import tinytag
 from telethon import types
 
 from ..handlers import user_cmd
-from ..helpers import generate_thumbnail, get_text_content, get_video_metadata
+from ..helpers import generate_thumbnail, get_text_content, get_video_metadata, human_readable_size
 from ..transfers import upload_file
 
 
@@ -15,7 +15,7 @@ async def _ul(e):
     l = await get_text_content(e)
     if not l:
         return await _ls(e)
-    msg = await e.reply("`Uploading...`")
+    msg = await e.edit("`Uploading...`")
     caption = ""
     thumb, attributes, streamable, chat = None, [], False, e.chat_id
     action = "document"
@@ -58,6 +58,7 @@ async def _ul(e):
         ]
         action = "audio"
     try:
+        msg = await msg.edit("`Started upload...`")
         file = await upload_file(e.client, l)
         async with e.client.action(chat, action):
             await e.client.send_message(
