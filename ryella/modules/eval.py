@@ -100,7 +100,7 @@ async def _update(e):
     if "Already up-to-date." in o.decode():
         return await p.edit("`Already **up-to-date**.`")
     change_log = await gen_change_log()
-    await e.respond("`{}`".format(change_log))
+    await e.respond(change_log)
     await p.edit("`Fast soft updating...`")
 
     args = [sys.executable, "-m", "ryella"]
