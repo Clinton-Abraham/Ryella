@@ -142,4 +142,5 @@ async def gen_change_log():
     stderr = stderr.decode().strip()
     if stderr:
         return stderr
-    return stdout
+    if len(stdout) > 4096:
+        return stdout[:4050] + "..."
