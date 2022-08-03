@@ -97,7 +97,7 @@ async def _update(e):
         "git pull", stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
     )
     o, _ = await proc.communicate()
-    if "Already up-to-date." in o.decode():
+    if "Already up to date." in o.decode():
         return await p.edit("`Already **up-to-date**.`")
     change_log = await gen_change_log()
     await e.respond(change_log)
