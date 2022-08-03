@@ -5,6 +5,7 @@ from .helpers import master
 
 user = master[0]
 
+
 def user_cmd(pattern: str, _help: str = ""):
     """
     Decorator for user commands.
