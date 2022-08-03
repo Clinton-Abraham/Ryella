@@ -5,7 +5,7 @@ import aria2p
 from bs4 import BeautifulSoup
 from requests import get
 
-from ..handler import user_cmd
+from ..handlers import user_cmd
 from ..helpers import human_readable_size
 
 
