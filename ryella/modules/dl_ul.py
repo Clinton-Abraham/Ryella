@@ -1,8 +1,10 @@
+import os
 import re
+import time
 
 import tinytag
 from telethon import types
-import time, os
+
 from ..handlers import user_cmd
 from ..helpers import generate_thumbnail, get_text_content, get_video_metadata
 from ..transfers import upload_file
@@ -71,6 +73,7 @@ async def _ul(e):
     except Exception as exc:
         await msg.edit("`error on uploading.\n{}`".format(str(exc)))
 
+
 @user_cmd("ls", "List directory contents")
 async def _ls(message):
     content = await get_text_content(message)
@@ -114,6 +117,7 @@ async def _ls(message):
         files[0] + folders[0], human_readable_size(files[1] + folders[1])
     )
     await message.edit(dir_contents, parse_mode="html")
+
 
 @user_cmd("dl", "Download the replied media")
 async def dl(message):
