@@ -137,10 +137,7 @@ async def gen_change_log():
         stdout=asyncio.subprocess.PIPE,
         stderr=asyncio.subprocess.PIPE,
     )
-    stdout, stderr = await proc.communicate()
+    stdout, _ = await proc.communicate()
     stdout = stdout.decode().strip()
-    stderr = stderr.decode().strip()
-    if stderr:
-        return stderr
-    if len(stdout) > 4096:
-        return stdout[:4050] + "..."
+    change = "**Change Log:**\n`" + '\n'.join(stdout.split('\n')[:4]) + "`"
+    return change
