@@ -130,6 +130,7 @@ async def _speedtest(e):
     )
     await msg.edit(result)
 
+
 async def gen_change_log():
     proc = await asyncio.create_subprocess_shell(
         "git log --pretty=format:'%h %s (%an) [%ad]' --abbrev-commit --date=relative",
