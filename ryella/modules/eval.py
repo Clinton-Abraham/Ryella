@@ -97,7 +97,10 @@ async def _update(e):
         "git pull", stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
     )
     await proc.communicate()
+    change_log = await gen_change_log()
+    await e.respond("`{}`".format(change_log))
     await p.edit("`Fast soft updating...`")
+
     args = [sys.executable, "-m", "ryella"]
     os.execle(sys.executable, *args, os.environ)
 
@@ -124,3 +127,16 @@ async def _speedtest(e):
         f"**Country:** `{country}`"
     )
     await msg.edit(result)
+
+async def gen_change_log():
+    proc = await asyncio.create_subprocess_shell(
+        "git log --pretty=format:'%h %s (%an) [%ad]' --abbrev-commit --date=relative",
+        stdout=asyncio.subprocess.PIPE,
+        stderr=asyncio.subprocess.PIPE,
+    )
+    stdout, stderr = await proc.communicate()
+    stdout = stdout.decode().strip()
+    stderr = stderr.decode().strip()
+    if stderr:
+        return stderr
+    return stdout
