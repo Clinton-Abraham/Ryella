@@ -9,7 +9,7 @@ import socket
 import time
 import uuid
 from datetime import datetime
-
+import ffmpeg
 import psutil
 import pymongo
 import telethon
@@ -256,3 +256,54 @@ def system_information():
     info += f"\n**Total Bytes Sent:** {get_size(net_io.bytes_sent)}"
     info += f"\n**Total Bytes Received:** {get_size(net_io.bytes_recv)}"
     return info
+
+def generate_thumbnail(in_filename, out_filename):
+    """gen thumb for video"""
+    probe = ffmpeg.probe(in_filename)
+    time = 2
+    width = probe["streams"][0]["width"]
+    try:
+        (
+            ffmpeg.input(in_filename, ss=time)
+            .filter("scale", width, -1)
+            .output(out_filename, vframes=1)
+            .overwrite_output()
+            .run(capture_stdout=True, capture_stderr=True)
+        )
+    except ffmpeg.Error as e:
+        print(e.stderr.decode(), file=sys.stderr)
+        return ""
+    return out_filename
+
+
+def get_video_metadata(file):
+    data = ffmpeg.probe(file)
+    try:
+        return (
+            int(data.get("format", {}).get("duration", "0").split(".")[0]),
+            data.get("streams", [])[0].get("width", 1),
+            data.get("streams", [])[0].get("height", 0),
+        )
+    except (KeyError, IndexError):
+        return (0, 0, 0)
+
+async def get_text_content(message):
+    """Returns the text content of a message."""
+    if message.reply_to_msg_id:
+        reply = await message.get_reply_message()
+        if reply.media:
+            if reply.document:
+                doc = await reply.download_media()
+                with open(doc, "r", errors="ignore") as f:
+                    u = f.read()
+                os.remove(doc)
+                return u
+            else:
+                return None
+        else:
+            return reply.text
+    else:
+        try:
+            return message.text.split(" ", 1)[1]
+        except:
+            return None
