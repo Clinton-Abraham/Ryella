@@ -109,7 +109,10 @@ async def check_progress_for_dl(gid, message, previous):
 async def t_url_download(message):
     is_url, is_mag = False, False
     reply = await message.get_reply_message()
-    args = message.pattern_match.group(1)
+    try:
+      args = message.text.split(" ", 1)[1]
+    except IndexError:
+      args = ""
     message = await message.edit("...")
     if reply and reply.document and reply.file.ext == ".torrent":
         tor = await message.client.download_media(reply)
