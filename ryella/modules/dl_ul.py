@@ -1,11 +1,13 @@
+import re
 from os import remove
 
+import tinytag
 from telethon import types
 
 from ..handlers import user_cmd
 from ..helpers import generate_thumbnail, get_text_content, get_video_metadata
 from ..transfers import upload_file
-import re, tinytag 
+
 
 @user_cmd("ul")
 async def _ul(e):
