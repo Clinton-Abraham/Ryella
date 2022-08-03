@@ -102,7 +102,7 @@ async def _update(e):
     change_log = await gen_change_log()
     await e.respond(change_log)
     await p.edit("`Fast soft updating...`")
-
+    # Spin up a new instance of bot
     args = [sys.executable, "-m", "ryella"]
     os.execle(sys.executable, *args, os.environ)
 
