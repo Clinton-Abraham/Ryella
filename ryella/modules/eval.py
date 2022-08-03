@@ -98,7 +98,7 @@ async def _update(e):
     )
     await proc.communicate()
     await p.edit("`Fast soft updating...`")
-    args = [sys.executable, "-m", ryella"]
+    args = [sys.executable, "-m", "ryella"]
     os.execle(sys.executable, *args, os.environ)
 
 
