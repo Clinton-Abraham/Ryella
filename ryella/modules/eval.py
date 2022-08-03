@@ -139,5 +139,5 @@ async def gen_change_log():
     )
     stdout, _ = await proc.communicate()
     stdout = stdout.decode().strip()
-    change = "**Change Log:**\n`" + '\n'.join(stdout.split('\n')[:4]) + "`"
+    change = "**Change Log:**\n`" + "\n".join(stdout.split("\n")[:4]) + "`"
     return change
