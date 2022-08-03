@@ -9,6 +9,7 @@ import socket
 import time
 import uuid
 from datetime import datetime
+
 import ffmpeg
 import psutil
 import pymongo
@@ -257,6 +258,7 @@ def system_information():
     info += f"\n**Total Bytes Received:** {get_size(net_io.bytes_recv)}"
     return info
 
+
 def generate_thumbnail(in_filename, out_filename):
     """gen thumb for video"""
     probe = ffmpeg.probe(in_filename)
@@ -286,4 +288,3 @@ def get_video_metadata(file):
         )
     except (KeyError, IndexError):
         return (0, 0, 0)
-
