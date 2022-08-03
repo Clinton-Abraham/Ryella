@@ -9,3 +9,4 @@ psutil
 ffmpeg-python
 tinytag
 aria2p
+bs4
