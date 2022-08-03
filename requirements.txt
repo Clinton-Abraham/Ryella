@@ -6,3 +6,6 @@ python-dotenv
 pillow
 speedtest-cli
 psutil
+ffmpeg-python
+tinytag
+aria2p
