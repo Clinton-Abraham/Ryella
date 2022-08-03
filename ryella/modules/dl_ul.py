@@ -1,9 +1,16 @@
-from os import remove
-
 from ..handlers import user_cmd
-from ..helpers import generate_thumbnail, get_text_content, get_video_metadata
+from ..helpers import human_readable_size
+from os import remove
 from ..transfers import upload_file
-
+from ..helpers import (
+    generate_thumbnail,
+    get_mention,
+    get_text_content,
+    get_user,
+    get_video_metadata,
+    human_readable_size,
+)
+from telethon import types
 
 @user_cmd("ul")
 async def _ul(e):
@@ -12,7 +19,7 @@ async def _ul(e):
         return await _ls(e)
     msg = await e.reply("`Uploading...`")
     caption = ""
-    thumb, attributes, streamable, chat = None, [], False, e.chat_id
+    thumb, attributes, streamable, chat= None,[], False, e.chat_id
     action = "document"
     if any([re.search(x, l.lower()) for x in ["--chat", "-c"]]):
         if "--chat" in l.lower():
@@ -64,6 +71,6 @@ async def _ul(e):
                 supports_streaming=streamable,
             )
         await msg.delete()
-        remove(thumb) if thumb else None
+        t = remove(thumb) if thumb else None
     except Exception as exc:
         await msg.edit("`error on uploading.\n{}`".format(str(exc)))
