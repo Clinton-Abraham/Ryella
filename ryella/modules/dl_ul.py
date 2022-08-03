@@ -42,7 +42,14 @@ async def _ul(e):
         caption = args[1] if len(args) > 1 else ""
         l = args[0].strip()
     filename = l.split("\\")[-1]
-    caption = caption or "`" + filename.split("/")[-1].replace("."+filename.split("/")[-1].split(".")[-1], "") + "`"
+    caption = (
+        caption
+        or "`"
+        + filename.split("/")[-1].replace(
+            "." + filename.split("/")[-1].split(".")[-1], ""
+        )
+        + "`"
+    )
     filename = filename.split("/")[-1] if filename == l else filename
     if l.endswith(("mp4", "mkv", "3gp", "webm")):
         thumb = generate_thumbnail(l, l + "_thumb.jpg")
