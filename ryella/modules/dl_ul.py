@@ -6,7 +6,12 @@ import tinytag
 from telethon import types
 
 from ..handlers import user_cmd
-from ..helpers import generate_thumbnail, get_text_content, get_video_metadata, human_readable_size
+from ..helpers import (
+    generate_thumbnail,
+    get_text_content,
+    get_video_metadata,
+    human_readable_size,
+)
 from ..transfers import upload_file
 
 
