@@ -11,7 +11,7 @@ def user_cmd(pattern: str, _help: str = ""):
     """
     Decorator for user commands.
     """
-    pattern = "^(?i)" + "[.,]" + pattern + "?(?: |$)"
+    pattern = "^(?i)" + "[,*]" + pattern + "?(?: |$)"
 
     def decorator(func):
         async def wrapper(message):
