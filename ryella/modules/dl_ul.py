@@ -1,7 +1,3 @@
-
-
-
-
 @user_cmd("ul")
 async def _ul(e):
     l = await get_text_content(e)
@@ -70,4 +66,3 @@ async def _ul(e):
             remove(thumb)
     except Exception as exc:
         await msg.edit("`error on uploading.\n{}`".format(str(exc)))
-
