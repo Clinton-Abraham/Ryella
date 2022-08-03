@@ -110,9 +110,9 @@ async def t_url_download(message):
     is_url, is_mag = False, False
     reply = await message.get_reply_message()
     try:
-      args = message.text.split(" ", 1)[1]
+        args = message.text.split(" ", 1)[1]
     except IndexError:
-      args = ""
+        args = ""
     message = await message.edit("...")
     if reply and reply.document and reply.file.ext == ".torrent":
         tor = await message.client.download_media(reply)
