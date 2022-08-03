@@ -62,7 +62,7 @@ async def aexec(code, event):
     return await locals()["__aexec"](event, event.client)
 
 
-@user_cmd("(exec|bash|shell)", "Execute bash commands")
+@user_cmd("exec|bash|shell", "Execute bash commands")
 async def _exec(e):
     try:
         cmd = e.text.split(maxsplit=1)[1]
@@ -101,7 +101,7 @@ async def _update(e):
 
 @user_cmd("speedtest", "speedtest-cli")
 async def _speedtest(e):
-    msg = await e.edit("`Testing internet speed...`")
+    msg = await e.edit("`testing speed...`")
     st = speedtest.Speedtest()
     download = st.download()
     upload = st.upload()
@@ -111,7 +111,7 @@ async def _speedtest(e):
     ip = st.results.client.get("ip", "Unknown")
     country = st.results.client.get("country", "Unknown")
     result = (
-        f"**Speedtest Results:**\n\n"
+        f"**Speedtest Results:**\n"
         f"**Download:** `{human_readable_size(download, True)}`\n"
         f"**Upload:** `{human_readable_size(upload, True)}`\n"
         f"**Ping:** `{ping} ms`\n"
