@@ -1,9 +1,8 @@
 import re
-from os import remove
 
 import tinytag
 from telethon import types
-
+import time, os
 from ..handlers import user_cmd
 from ..helpers import generate_thumbnail, get_text_content, get_video_metadata
 from ..transfers import upload_file
@@ -68,6 +67,65 @@ async def _ul(e):
                 supports_streaming=streamable,
             )
         await msg.delete()
-        remove(thumb) if thumb else None
+        os.remove(thumb) if thumb else None
     except Exception as exc:
         await msg.edit("`error on uploading.\n{}`".format(str(exc)))
+
+@user_cmd("ls", "List directory contents")
+async def _ls(message):
+    content = await get_text_content(message)
+    if not content:
+        content = "./"
+    if not content.endswith("/"):
+        content = content + "/"
+    try:
+        directory = os.listdir(content)
+    except Exception as a:
+        return await message.edit(str(a))
+    dir_contents = "<b>PATH: <i>{}</i></b>\n".format(content)
+    folders = [0, 0]
+    files = [0, 0]
+    files_list = []
+    for con in directory:
+        size = os.path.getsize(content + con)
+        if os.path.isdir(content + con):
+            folders[0] += 1
+            folders[1] += size
+            dir_contents += "📂<code> {} </code>(<code>{}</code>)\n".format(
+                con, human_readable_size(size)
+            )
+        else:
+            files[0] += 1
+            files[1] += size
+            files_list.append(con)
+    for con in files_list:
+        size = os.path.getsize(content + con)
+        dir_contents += "📃<code> {} </code>(<code>{}</code>)\n".format(
+            con, human_readable_size(size)
+        )
+    dir_contents += "\n"
+    dir_contents += "<b>Folders:</b> {}</code> (<code>{}</code>)".format(
+        folders[0], human_readable_size(folders[1])
+    )
+    dir_contents += "\n<b>Files:</b> {}</code> (<code>{}</code>)".format(
+        files[0], human_readable_size(files[1])
+    )
+    dir_contents += "\n<b>Total:</b> {}</code>(<code>{}</code>)".format(
+        files[0] + folders[0], human_readable_size(files[1] + folders[1])
+    )
+    await message.edit(dir_contents, parse_mode="html")
+
+@user_cmd("dl", "Download the replied media")
+async def dl(message):
+    if not message.is_reply:
+        await message.edit("Reply to a message to download it.")
+        return
+    reply = await message.get_reply_message()
+    if not reply.media:
+        await message.edit("Reply to a media message to download it.")
+        return
+    start_time = time()
+    message = await message.edit("`Downloading...`")
+    file = await reply.download_media()
+    end_time = time()
+    await message.edit(f"Downloaded to `{file}` in `{end_time - start_time}`s.")
