@@ -168,7 +168,10 @@ async def clr_aria(message):
 
 @user_cmd("cancel")
 async def remove_a_download(message):
-    g_id = message.pattern_match.group(1)
+    try:
+        g_id = message.text.split(None, 1)[1]
+    except IndexError:
+        g_id = ""
     try:
         downloads = aria2p_client.get_download(g_id)
     except:
