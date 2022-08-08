@@ -18,7 +18,7 @@ alive_caption = """
 """
 
 ping_caption = """
-<b>Ping:</b> <code>{}</code>
+<b>Ping!! </b> <code>{}ms</code>
 <b>Uptime:</b> <code>{}</code>
 """
 
