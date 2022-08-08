@@ -8,13 +8,13 @@ from ..handlers import user, user_cmd
 from ..helpers import get_readable_time
 
 alive_caption = """
-<b>Ryella Userbot</b>
+Bᴏᴛ Oғ <b>𝙍oseLoverX</b> [𝙸𝚅𝙰𝚁]
 
-<b>Version:</b> <code>1.0.1</code>
-<b>Master:</b> <b><a href="tg://user?id={}">{}</a></b>
-<b>Python:</b> <code>{}</code>
-<b>Platform:</b> <code>{}</code>
-<b>Telethon:</b> <code>{}</code>
+Mᴀɪɴ Mᴇɴᴜ
+
+Pʟᴜɢɪɴs ~ 23
+Aᴅᴅᴏɴs ~ 13
+Tᴏᴛᴀʟ Cᴏᴍᴍᴀɴᴅs ~ 2772
 """
 
 ping_caption = """
@@ -26,13 +26,7 @@ ping_caption = """
 @user_cmd("alive", "Check if the bot is alive")
 async def alive(message):
     await message.edit(
-        alive_caption.format(
-            user.id,
-            user.first_name.capitalize(),
-            python_version(),
-            platform(),
-            __version__,
-        ),
+        alive_caption,
         parse_mode="html",
         link_preview=False,
     )
