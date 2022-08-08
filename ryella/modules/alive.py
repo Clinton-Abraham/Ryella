@@ -41,5 +41,5 @@ async def alive(message):
 @user_cmd("ping", "Check the bot's ping")
 async def _ping(message):
     uptime = get_readable_time(time() - start_time)
-    ping = int(time() - message.date.timestamp())
-    await message.edit(ping_caption.format(ping, uptime), parse_mode="html")
+    ping = time() - message.date.timestamp()
+    await message.edit(ping_caption.format(round(ping, 2), uptime), parse_mode="html")
