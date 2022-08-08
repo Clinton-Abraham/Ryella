@@ -1,10 +1,7 @@
-from platform import platform, python_version
 from time import time
 
-from telethon import __version__
-
 from ..constants import start_time
-from ..handlers import user, user_cmd
+from ..handlers import user_cmd
 from ..helpers import get_readable_time
 
 alive_caption = """
