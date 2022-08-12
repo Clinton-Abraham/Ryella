@@ -80,12 +80,8 @@ async def _exec(e):
             await e.respond(file=file)
             await p.delete()
     else:
-        if "windows" in platform().lower():
-            ptf = "PowerShell"
-        else:
-            ptf = "Bash"
-        caption = "**{}:**\n**Code:** `{}`\n**Output:**```{}```".format(ptf, cmd, out)
-        await p.edit(caption)
+        resp = f"**OUTPUT**: `{out}`"
+        await e.edit(resp)
 
 
 @user_cmd("update", "git pull from origin repo")
