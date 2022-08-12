@@ -4,11 +4,9 @@ import logging
 import math
 import os
 import platform
-import re
 import socket
 import sys
 import time
-import uuid
 from datetime import datetime
 
 import ffmpeg
@@ -28,10 +26,12 @@ def setup_logging():
     )
 
     handler = logging.handlers.RotatingFileHandler(
-        'ryella.log', maxBytes=1024 * 1024 * 5, backupCount=5)
+        "ryella.log", maxBytes=1024 * 1024 * 5, backupCount=5
+    )
     handler.setLevel(logging.INFO)
     formatter = logging.Formatter(
-        '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    )
     handler.setFormatter(formatter)
     logger.addHandler(handler)
 
@@ -102,8 +102,7 @@ async def get_user(e):
     args = e.text.split(maxsplit=2)
     if e.is_reply:
         user = (await e.get_reply_message()).sender
-        arg = (args[1] + (args[2] if len(args) > 2 else "")
-               ) if len(args) > 1 else ""
+        arg = (args[1] + (args[2] if len(args) > 2 else "")) if len(args) > 1 else ""
     else:
         if len(args) == 1:
             return e.sender, ""

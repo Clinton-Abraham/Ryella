@@ -116,9 +116,7 @@ async def t_url_download(message):
     if reply and reply.document and reply.file.ext == ".torrent":
         tor = await message.client.download_media(reply)
         try:
-            download = aria.add_torrent(
-                tor, uris=None, options=None, position=None
-            )
+            download = aria.add_torrent(tor, uris=None, options=None, position=None)
         except Exception as e:
             return await message.edit(f"**ERROR:**  `{e}`")
     elif args:
