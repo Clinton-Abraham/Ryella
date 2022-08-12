@@ -28,12 +28,12 @@ def aria_start():
     return aria2
 
 
-aria2p_client = aria_start()
+aria = aria_start()
 
 
 async def check_metadata(gid):
     try:
-        t_file = aria2p_client.get_download(gid)
+        t_file = aria.get_download(gid)
     except aria2p.client.ClientException:
         return None
     if not t_file.followed_by_ids:
@@ -46,16 +46,15 @@ async def check_progress_for_dl(gid, message, previous):
     complete = False
     while not complete:
         try:
-            t_file = aria2p_client.get_download(gid)
+            t_file = aria.get_download(gid)
         except:
             return await message.edit("Download cancelled by user ...")
         complete = t_file.is_complete
         is_file = t_file.seeder
         try:
             if t_file.error_message:
-                print(str(t_file.error_message))
                 await message.edit(str(t_file.error_message))
-            if t_file.is_complete:
+            if t_file.is_complete and not t_file.name.lower().startswith("[metadata]"):
                 return await message.edit(
                     f"**Successfully Downloaded {t_file.name}** \n\n"
                     f"> Size:  `{t_file.total_length_string()}` \n"
@@ -79,7 +78,7 @@ async def check_progress_for_dl(gid, message, previous):
                         f"**Seeds:**  `{t_file.num_seeders}` \n"
                     )
                 msg = (
-                    f"`{prog_str}` \n\n"
+                    f"{prog_str} \n\n"
                     f"**Name:**  `{t_file.name or 'unknown'}` \n"
                     f"**Completed:**  `{human_readable_size(downloaded)}` \n"
                     f"**Total:**  `{t_file.total_length_string()}` \n"
@@ -92,7 +91,7 @@ async def check_progress_for_dl(gid, message, previous):
                     await message.edit(msg)
                     previous = msg
             else:
-                print("lada")
+                pass
             await sleep(5)
         except Exception as e:
             if "not found" in str(e) or "'file'" in str(e):
@@ -113,12 +112,11 @@ async def t_url_download(message):
         args = message.text.split(None, 1)[1]
     except IndexError:
         args = ""
-    print(args)
     message = await message.edit("...")
     if reply and reply.document and reply.file.ext == ".torrent":
         tor = await message.client.download_media(reply)
         try:
-            download = aria2p_client.add_torrent(
+            download = aria.add_torrent(
                 tor, uris=None, options=None, position=None
             )
         except Exception as e:
@@ -127,13 +125,13 @@ async def t_url_download(message):
         if args.lower().startswith("http"):
             try:
                 is_url = True
-                download = aria2p_client.add_uris([args], options=None)
+                download = aria.add_uris([args], options=None)
             except Exception as e:
                 return await message.edit(f"**ERROR while adding URI** \n`{e}`")
         elif args.lower().startswith("magnet:"):
             is_mag = True
             try:
-                download = aria2p_client.add_magnet(args, options=None)
+                download = aria.add_magnet(args, options=None)
             except Exception as e:
                 return await message.edit(f"**ERROR while adding URI** \n`{e}`")
     else:
@@ -142,7 +140,7 @@ async def t_url_download(message):
     await message.edit("`Processing......`")
     await check_progress_for_dl(gid=gid, message=message, previous="")
     if is_url:
-        file = aria2p_client.get_download(gid)
+        file = aria.get_download(gid)
         if file.followed_by_ids:
             new_gid = await check_metadata(gid)
             await check_progress_for_dl(gid=new_gid, message=message, previous="")
@@ -156,8 +154,8 @@ async def t_url_download(message):
 async def clr_aria(message):
     removed = False
     try:
-        removed = aria2p_client.remove_all(force=True)
-        aria2p_client.purge()
+        removed = aria.remove_all(force=True)
+        aria.purge()
     except Exception as e:
         print(e)
     await sleep(1)
@@ -173,18 +171,18 @@ async def remove_a_download(message):
     except IndexError:
         g_id = ""
     try:
-        downloads = aria2p_client.get_download(g_id)
+        downloads = aria.get_download(g_id)
     except:
         await message.edit("GID not found ....")
         return
     file_name = downloads.name
     await message.edit(f"**Successfully cancelled download.** \n`{file_name}`")
-    aria2p_client.remove(downloads=[downloads], force=True, files=True, clean=True)
+    aria.remove(downloads=[downloads], force=True, files=True, clean=True)
 
 
 @user_cmd("ariastatus")
 async def show_all(message):
-    downloads = aria2p_client.get_downloads()
+    downloads = aria.get_downloads()
     msg = "**On Going Downloads**\n\n"
     for download in downloads:
         if str(download.status) != "complete":
@@ -212,10 +210,10 @@ async def show_all(message):
 @user_cmd("ariapause")
 async def pause_all(message):
     await message.edit("`Pausing downloads...`")
-    aria2p_client.pause_all()
+    aria.pause_all()
 
 
 @user_cmd("ariaresume")
 async def resume_all(message):
     await message.edit("`Resuming downloads...`")
-    aria2p_client.resume_all()
+    aria.resume_all()

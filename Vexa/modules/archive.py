@@ -2,8 +2,8 @@ import asyncio
 import zipfile
 from time import time
 
-from ryella.handlers import user_cmd  # pylint: disable=E0402
-from ryella.helpers import progress
+from Vexa.handlers import user_cmd  # pylint: disable=E0402
+from Vexa.helpers import progress
 
 
 @user_cmd("compress", "Compress the replied message")

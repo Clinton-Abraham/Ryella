@@ -9,7 +9,7 @@ from platform import platform
 import speedtest
 
 from ..handlers import user_cmd
-from ..helpers import human_readable_size
+from ..helpers import human_readable_size, system_information
 
 
 @user_cmd("eval", "Evaluate python code")
@@ -81,10 +81,10 @@ async def _exec(e):
             await p.delete()
     else:
         if "windows" in platform().lower():
-            ptf = "POWERSHELL"
+            ptf = "PowerShell"
         else:
-            ptf = "BASH"
-        caption = "**{}:**\n**Code:** `{}`\n**Output:**\n\n```{}```".format(
+            ptf = "Bash"
+        caption = "**{}:**\n**Code:** `{}`\n**Output:**```{}```".format(
             ptf, cmd, out
         )
         await p.edit(caption)
@@ -99,8 +99,6 @@ async def _update(e):
     o, _ = await proc.communicate()
     if "Already up to date." in o.decode():
         return await p.edit("`Already **up-to-date**.`")
-    change_log = await gen_change_log()
-    await e.respond(change_log)
     await p.edit("`Fast soft updating...`")
     # Spin up a new instance of bot
     args = [sys.executable, "-m", "ryella"]
@@ -146,4 +144,7 @@ async def gen_change_log():
     return change
 
 
-# xd
+@user_cmd("sysinfo", "Show system info")
+async def _sysinfo(e):
+    info = system_information()
+    await e.edit(info)

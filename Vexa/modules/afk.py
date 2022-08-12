@@ -2,8 +2,8 @@ import datetime
 
 from telethon import events
 
-from ryella.constants import userbot
-from ryella.modules.db.afk import get_afk, is_afk, set_afk
+from Vexa.constants import userbot
+from Vexa.modules.db.afk import get_afk, is_afk, set_afk
 
 
 @userbot.on(events.NewMessage(outgoing=True))

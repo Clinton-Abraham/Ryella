@@ -6,6 +6,7 @@ import os
 import platform
 import re
 import socket
+import sys
 import time
 import uuid
 from datetime import datetime
@@ -26,13 +27,13 @@ def setup_logging():
         level=logging.INFO,
     )
 
-    # handler = logging.handlers.RotatingFileHandler(
-    # 'ryella.log', maxBytes=1024 * 1024 * 5, backupCount=5)
-    # handler.setLevel(logging.INFO)
-    # formatter = logging.Formatter(
-    # '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    # handler.setFormatter(formatter)
-    # logger.addHandler(handler)
+    handler = logging.handlers.RotatingFileHandler(
+        'ryella.log', maxBytes=1024 * 1024 * 5, backupCount=5)
+    handler.setLevel(logging.INFO)
+    formatter = logging.Formatter(
+        '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
 
     logger = logging.getLogger("ryella")
 
@@ -101,7 +102,8 @@ async def get_user(e):
     args = e.text.split(maxsplit=2)
     if e.is_reply:
         user = (await e.get_reply_message()).sender
-        arg = (args[1] + (args[2] if len(args) > 2 else "")) if len(args) > 1 else ""
+        arg = (args[1] + (args[2] if len(args) > 2 else "")
+               ) if len(args) > 1 else ""
     else:
         if len(args) == 1:
             return e.sender, ""
@@ -185,12 +187,9 @@ def system_information():
     info = "**System Information**"
     info += f"\nSystem: {uname.system}"
     info += f"\nNode Name: {uname.node}"
-    info += f"\nRelease: {uname.release}"
-    info += f"\nVersion: {uname.version}"
     info += f"\nMachine: {uname.machine}"
     info += f"\nProcessor: {uname.processor}"
     info += f"\nIp-Address: {socket.gethostbyname(socket.gethostname())}"
-    info += f"\nMac-Address: {':'.join(re.findall('..', '%012x' % uuid.getnode()))}"
 
     boot_time_timestamp = psutil.boot_time()
     bt = datetime.fromtimestamp(boot_time_timestamp)
@@ -203,8 +202,6 @@ def system_information():
     info += f"\nTotal cores: {psutil.cpu_count(logical=True)}"
     # CPU frequencies
     cpufreq = psutil.cpu_freq()
-    info += f"\nMax Frequency: {cpufreq.max:.2f}Mhz"
-    info += f"\nMin Frequency: {cpufreq.min:.2f}Mhz"
     info += f"\nCurrent Frequency: {cpufreq.current:.2f}Mhz"
     # CPU usage
     info += f"\nTotal CPU Usage: {psutil.cpu_percent()}%"
@@ -237,22 +234,8 @@ def system_information():
     info += f"Total read: {get_size(disk_io.read_bytes)}"
     info += f"Total write: {get_size(disk_io.write_bytes)}"
 
-    ## Network information
+    # Network information
     info += "\n\n**Network Information**"
-    ## get all network interfaces (virtual and physical)
-    if_addrs = psutil.net_if_addrs()
-    for interface_name, interface_addresses in if_addrs.items():
-        for address in interface_addresses:
-            info += f"=== Interface: {interface_name} ==="
-            if str(address.family) == "AddressFamily.AF_INET":
-                info += f"\n  IP Address: {address.address}"
-                info += f"\n  Netmask: {address.netmask}"
-                info += f"\n  Broadcast IP: {address.broadcast}"
-            elif str(address.family) == "AddressFamily.AF_PACKET":
-                info += f"\n  MAC Address: {address.address}"
-                info += f"\n  Netmask: {address.netmask}"
-                info += f"\n  Broadcast MAC: {address.broadcast}"
-    ##get IO statistics since boot
     net_io = psutil.net_io_counters()
     info += f"\n**Total Bytes Sent:** {get_size(net_io.bytes_sent)}"
     info += f"\n**Total Bytes Received:** {get_size(net_io.bytes_recv)}"

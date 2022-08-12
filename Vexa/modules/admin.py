@@ -1,7 +1,7 @@
 from telethon import errors, functions, types
 
-from ryella.handlers import user_cmd
-from ryella.helpers import get_text_content, get_user, resize_image
+from Vexa.handlers import user_cmd
+from Vexa.helpers import get_text_content, get_user, resize_image
 
 
 @user_cmd("setgp", "Set group's picture")

@@ -24,23 +24,6 @@ async def _ul(e):
     caption = ""
     thumb, attributes, streamable, chat = None, [], False, e.chat_id
     action = "document"
-    if any([re.search(x, l.lower()) for x in ["--chat", "-c"]]):
-        if "--chat" in l.lower():
-            args = l.split("--chat")
-            l = re.sub("--chat (.*) -", "-", l).strip()
-            if "--chat" in l.lower():
-                l = re.sub("--chat (.*)", "", l).strip()
-        else:
-            args = l.split("-c")
-            l = re.sub("-c (.*) -", "-", l).strip()
-            if "-c" in l.lower():
-                l = re.sub("-c (.*)", "", l).strip()
-        chat = args[1].split("-")[0].strip() if len(args) > 1 else e.chat_id
-        chat = int(chat) if str(chat).isdigit() else chat
-    if any([re.search(x, l.lower()) for x in ["--text", "-t"]]):
-        args = l.split("--text") if "--text" in l else l.split("-t")
-        caption = args[1] if len(args) > 1 else ""
-        l = args[0].strip()
     filename = l.split("\\")[-1]
     caption = (
         caption

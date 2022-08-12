@@ -1,17 +1,19 @@
+from platform import python_version
 from time import time
 
 from ..constants import start_time
-from ..handlers import user_cmd
+from ..handlers import user_cmd, user
 from ..helpers import get_readable_time
 
 alive_caption = """
-Bᴏᴛ Oғ <b>𝙍oseLoverX</b> [𝙸𝚅𝙰𝚁]
+**Vexa is online!**
 
-Mᴀɪɴ Mᴇɴᴜ
-
-Pʟᴜɢɪɴs ~ 23
-Aᴅᴅᴏɴs ~ 13
-Tᴏᴛᴀʟ Cᴏᴍᴍᴀɴᴅs ~ 2772
+**Uptime:** `{uptime}`
+**Master:** {master}
+**Version:** `{version}`
+**Python:** {python}
+**Database:** {db}
+**___________________**
 """
 
 ping_caption = """
@@ -19,14 +21,15 @@ ping_caption = """
 <b>Uptime:</b> <code>{}</code>
 """
 
-
 @user_cmd("alive", "Check if the bot is alive")
 async def alive(message):
-    await message.edit(
-        alive_caption,
-        parse_mode="html",
-        link_preview=False,
-    )
+    await message.edit(alive_caption.format(
+        get_readable_time(time() - start_time),
+        f"[{user.first_name}](tg://user?id={user.id})",
+        "1.2.0",
+        python_version(),
+        "MongoDB",
+    ))
 
 
 @user_cmd("ping", "Check the bot's ping")

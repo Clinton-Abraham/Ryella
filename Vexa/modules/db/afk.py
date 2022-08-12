@@ -1,6 +1,6 @@
 import time
 
-from ryella.constants import db
+from Vexa.constants import db
 
 afk = db.ryella.afk
 
