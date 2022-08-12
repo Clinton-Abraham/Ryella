@@ -1,4 +1,5 @@
 import asyncio
+import os
 from time import time
 
 from Vexa.handlers import user_cmd  # pylint: disable=E0402
@@ -30,10 +31,12 @@ async def _mp3(msg):
     message = await message.edit("`Uploading...`")
     await msg.client.send_file(
         msg.chat_id,
-        "/downloads/" + dl.file_name + ".mp3",
+        "/downloads/" + dl + ".mp3",
         caption="Converted",
         progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
             progress(d, t, message, time(), "trying to upload")
         ),
     )
+    os.remove("/downloads/" + dl + ".mp3")
+    os.remove("/downloads/" + dl)
     await msg.delete()
