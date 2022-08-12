@@ -23,9 +23,7 @@ def setup_logging():
     logging.basicConfig(
         format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
         level=logging.INFO,
-        stream=logging.FileHandler(
-            "vexa.log", mode="a", encoding="utf-8", delay=True
-        ),
+        stream=logging.FileHandler("vexa.log", mode="a", encoding="utf-8", delay=True),
     )
     return logging.getLogger("Vexa")
 
