@@ -14,7 +14,7 @@ userbot = helpers.setup_client(getenv("API_KEY"), getenv("API_HASH"), getenv("SE
 db = helpers.setup_db(getenv("MONGODB_URI"))
 
 try:
-    db.ryella.list_indexes()
+    db.Vexa.list_indexes()
     logger.info("Connected to MongoDB")
 except ServerSelectionTimeoutError:
     logger.error("Mongodb connection failed")

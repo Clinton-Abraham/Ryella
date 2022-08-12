@@ -7,7 +7,7 @@ try:
 except Exception as e:
     raise e
 
-print("Ryella is now running!")
+print("Vexa is now running!")
 print(master)
 
 import_modules(logger)

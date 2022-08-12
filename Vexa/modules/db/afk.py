@@ -2,7 +2,7 @@ import time
 
 from Vexa.constants import db
 
-afk = db.ryella.afk
+afk = db.Vexa.afk
 
 AFk: bool = False
 

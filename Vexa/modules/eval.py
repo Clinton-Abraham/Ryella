@@ -99,7 +99,7 @@ async def _update(e):
         return await p.edit("`Already **up-to-date**.`")
     await p.edit("`Fast soft updating...`")
     # Spin up a new instance of bot
-    args = [sys.executable, "-m", "ryella"]
+    args = [sys.executable, "-m", "Vexa"]
     os.execle(sys.executable, *args, os.environ)
 
 

@@ -40,15 +40,15 @@ def setup_client(api_key, api_secret, session_id):
 
 def setup_db(uri: str):
     """Returns a mongo client."""
-    return pymongo.MongoClient(uri).ryella if uri else None
+    return pymongo.MongoClient(uri).Vexa if uri else None
 
 
 def import_modules(logger):
     """Imports all modules in the modules folder."""
-    path = "ryella/modules/"
+    path = "Vexa/modules/"
     for filename in os.listdir(path):
         if filename.endswith(".py"):
-            importlib.import_module("ryella.modules." + filename[:-3])
+            importlib.import_module("Vexa.modules." + filename[:-3])
             logger.info("Imported module: " + filename)
 
 
