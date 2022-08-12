@@ -4,7 +4,6 @@ import os
 import sys
 import time
 import traceback
-from platform import platform
 
 import speedtest
 
