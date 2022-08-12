@@ -4,11 +4,9 @@ import logging
 import math
 import os
 import platform
-import re
 import socket
 import sys
 import time
-import uuid
 from datetime import datetime
 
 import ffmpeg
@@ -30,7 +28,6 @@ def setup_logging():
         ),
     )
     return logging.getLogger("Vexa")
-
 
 
 def setup_client(api_key, api_secret, session_id):
@@ -95,8 +92,7 @@ async def get_user(e):
     args = e.text.split(maxsplit=2)
     if e.is_reply:
         user = (await e.get_reply_message()).sender
-        arg = (args[1] + (args[2] if len(args) > 2 else "")
-               ) if len(args) > 1 else ""
+        arg = (args[1] + (args[2] if len(args) > 2 else "")) if len(args) > 1 else ""
     else:
         if len(args) == 1:
             return e.sender, ""

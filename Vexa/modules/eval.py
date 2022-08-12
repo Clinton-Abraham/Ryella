@@ -84,9 +84,7 @@ async def _exec(e):
             ptf = "PowerShell"
         else:
             ptf = "Bash"
-        caption = "**{}:**\n**Code:** `{}`\n**Output:**```{}```".format(
-            ptf, cmd, out
-        )
+        caption = "**{}:**\n**Code:** `{}`\n**Output:**```{}```".format(ptf, cmd, out)
         await p.edit(caption)
 
 
