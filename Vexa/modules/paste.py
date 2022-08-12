@@ -20,6 +20,7 @@ async def paste(message):
             await msg.edit(f"Error: {e}")
             return
         else:
+            print(response.json())
             msge = "<b>Pasted to:</b> <a href='https://warm-anchorage-15807.herokuapp.com/{}'>NekoBin</a>".format(
                 response.json()["key"]
             )
