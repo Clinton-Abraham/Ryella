@@ -25,19 +25,12 @@ def setup_logging():
     logging.basicConfig(
         format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
         level=logging.INFO,
+        stream=logging.FileHandler(
+            "vexa.log", mode="a", encoding="utf-8", delay=True
+        ),
     )
+    return logging.getLogger("Vexa")
 
-    handler = logging.handlers.RotatingFileHandler(
-        'ryella.log', maxBytes=1024 * 1024 * 5, backupCount=5)
-    handler.setLevel(logging.INFO)
-    formatter = logging.Formatter(
-        '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    handler.setFormatter(formatter)
-    logger.addHandler(handler)
-
-    logger = logging.getLogger("ryella")
-
-    return logger
 
 
 def setup_client(api_key, api_secret, session_id):
