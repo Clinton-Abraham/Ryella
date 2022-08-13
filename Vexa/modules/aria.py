@@ -2,8 +2,6 @@ import subprocess
 from asyncio import sleep
 
 import aria2p
-from bs4 import BeautifulSoup
-from requests import get
 
 from ..handlers import user_cmd
 from ..helpers import human_readable_size
