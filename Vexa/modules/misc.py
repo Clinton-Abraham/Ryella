@@ -21,5 +21,5 @@ async def math(message):
     result = response.text
     result = "ERR73" if result == "" else result
     await message.edit(
-        "**► MathExp**\n**`{}`\n\n**► RESULT**\n`{}`".format(exp, result)
+        "**► MathExp**\n`{}`\n\n**► RESULT**\n`{}`".format(exp, result)
     )
