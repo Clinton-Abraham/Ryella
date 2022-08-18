@@ -20,6 +20,4 @@ async def math(message):
         return await message.reply("Error: {}".format(response.status_code))
     result = response.text
     result = "ERR73" if result == "" else result
-    await message.edit(
-        "**► MathExp**\n`{}`\n\n**► RESULT**\n`{}`".format(exp, result)
-    )
+    await message.edit("**► MathExp**\n`{}`\n\n**► RESULT**\n`{}`".format(exp, result))
