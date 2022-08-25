@@ -155,8 +155,9 @@ async def _do_usage(e):
                 "Authorisation": "Bearer {}".format(DO),
             },
         ).json()
+        print(r)
         await e.edit(
-            "**Digital Ocean Usage:**\n\n**Usage:** {}\n**Balance:** {}\**MontlyUsage:** {}\n**AccBal:** {}".format(
+            "**Digital Ocean Usage:**\n\n**Usage:** {}\n**Balance:** {}\n**MontlyUsage:** {}\n**AccBal:** {}".format(
                 100 - abs(int(r.get("month_to_date_balance", 0))),
                 abs(int(r.get("month_to_date_balance", 0))),
                 r.get("month_to_date_usage", 0),
