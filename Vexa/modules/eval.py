@@ -143,13 +143,14 @@ async def _sysinfo(e):
     await e.edit(info)
 
 @user_cmd("usage")
-async def _do_usage:
+async def _do_usage(e):
  DO = os.getenv("DO_TOKEN")
  if DO:
     r = get("https://api.digitalocean.com/v2/customers/my/balance", headers={
          "Content-Type": "application/json",
          "Authorisation": "Bearer {}".format(DO),
         }).json()
-    await e.respond("**Digital Ocean Usage:**\n\n**Usage:** {}\n**Balance:** {}\**MontlyUsage:** {}\n**AccBal:** {}".format(
+    await e.edit("**Digital Ocean Usage:**\n\n**Usage:** {}\n**Balance:** {}\**MontlyUsage:** {}\n**AccBal:** {}".format(
          100-abs(int(r.get("month_to_date_balance", 0))), abs(int(r.get("month_to_date_balance", 0))), r.get("month_to_date_usage", 0), r.get("account_balance", 0)))
-    
+ else:
+    await e.edit("DO_TOKEN Missing.")
