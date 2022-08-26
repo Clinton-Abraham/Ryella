@@ -149,10 +149,12 @@ async def _do_usage(e):
     DIGITALOCEAN_TOKEN = os.getenv("DO_TOKEN")
     if DIGITALOCEAN_TOKEN:
         headers = {
-    'Content-Type': 'application/json',
-    'Authorization': f"Bearer {DIGITALOCEAN_TOKEN}",
-}
-        r = get('https://api.digitalocean.com/v2/customers/my/balance', headers=headers).json()
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {DIGITALOCEAN_TOKEN}",
+        }
+        r = get(
+            "https://api.digitalocean.com/v2/customers/my/balance", headers=headers
+        ).json()
         print(r)
         await e.edit(
             "**Digital Ocean Usage:**\n\n**Usage:** {}$\n**Balance:** {}$\n**MontlyUsage:** {}$\n**AccBal:** {}$".format(
