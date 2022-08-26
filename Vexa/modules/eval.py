@@ -146,15 +146,13 @@ async def _sysinfo(e):
 
 @user_cmd("usage")
 async def _do_usage(e):
-    DO = os.getenv("DO_TOKEN")
-    if DO:
-        r = get(
-            "https://api.digitalocean.com/v2/customers/my/balance",
-            headers={
-                "Content-Type": "application/json",
-                "Authorization": "Bearer {}".format(DO),
-            },
-        ).json()
+    DIGITALOCEAN_TOKEN = os.getenv("DO_TOKEN")
+    if DIGITALOCEAN_TOKEN:
+        headers = {
+    'Content-Type': 'application/json',
+    'Authorization': f"Bearer {DIGITALOCEAN_TOKEN}",
+}
+        r = get('https://api.digitalocean.com/v2/customers/my/balance', headers=headers).json()
         print(r)
         await e.edit(
             "**Digital Ocean Usage:**\n\n**Usage:** {}$\n**Balance:** {}$\n**MontlyUsage:** {}$\n**AccBal:** {}$".format(
