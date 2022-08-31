@@ -98,6 +98,12 @@ async def _update(e):
     args = [sys.executable, "-m", "Vexa"]
     os.execle(sys.executable, *args, os.environ)
 
+@user_cmd("restart")
+async def reboot(e):
+ await e.edit("`Restarting...`")
+ args = [sys.executable, "-m", "Vexa"]
+ os.execle(sys.executable, *args, os.environ)
+
 
 @user_cmd("speedtest", "speedtest-cli")
 async def _speedtest(e):
